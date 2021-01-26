@@ -1,0 +1,15 @@
+#pragma once
+#ifndef __ENEMY_ANIMATION_STATE__
+#define __ENEMY_ANIMATION_STATE__
+
+enum EnemyAnimationState
+{
+	ENEMY_IDLE_RIGHT,
+	ENEMY_IDLE_LEFT,
+	ENEMY_RUN_RIGHT,
+	ENEMY_RUN_LEFT,
+	ENEMY_RUN_UP,
+	ENEMY_RUN_DOWN,
+	//NUM_OF_ANIMATION_STATES
+};
+#endif
