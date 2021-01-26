@@ -1,6 +1,8 @@
 #include "SpaceShip.h"
 
 
+
+#include "Game.h"
 #include "TextureManager.h"
 #include "Util.h"
 
@@ -61,6 +63,13 @@ void SpaceShip::setOrientation(const glm::vec2 orientation)
 void SpaceShip::setAngle(const float angle)
 {
 	m_angle = angle;
+
+	auto angle_in_radians = (angle - 90.0f) * Util::Deg2Rad;
+
+	auto x = cos(angle_in_radians);
+	auto y = sin(angle_in_radians);
+
+	setOrientation(glm::vec2(x, y));
 }
 
 float SpaceShip::getAngle() const
@@ -95,12 +104,18 @@ void SpaceShip::setAccelerationRate(float rate)
 
 void SpaceShip::m_Move()
 {
+	auto deltaTime = TheGame::Instance()->getDeltaTime();
+	
 	//magnitude
 	m_targetDirection = m_destination - getTransform()->position;
 	//normalized
 	m_targetDirection = Util::normalize(m_targetDirection);
 
-	getRigidBody()->velocity = m_targetDirection * m_maxSpeed;
+	auto target_rotation = Util::signedAngle(getOrientation(), m_targetDirection);
+	 
+	
 
-	getTransform()->position += getRigidBody()->velocity;
+	//getRigidBody()->velocity = m_targetDirection * m_maxSpeed;
+
+	//getTransform()->position += getRigidBody()->velocity;
 }
