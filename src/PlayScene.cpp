@@ -100,6 +100,8 @@ void PlayScene::GUI_Function() const
 	{
 		m_pSpaceShip->setEnabled(false);
 		m_pSpaceShip->getTransform()->position = glm::vec2(100, 100);
+		m_pSpaceShip->getRigidBody()->velocity = glm::vec2(0.0f, 0.0f);
+		m_pSpaceShip->setAngle(0.0f);
 	}
 	ImGui::Separator();
 

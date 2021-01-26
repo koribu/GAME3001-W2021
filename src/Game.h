@@ -50,7 +50,7 @@ public:
 	void setFrames(Uint32 frames);
 	Uint32 getFrames() const;
 
-	float getDeltaTime() const;
+	float getDeltaTime();
 	void setDeltatime(float t);
 	
 	bool isRunning() const;
