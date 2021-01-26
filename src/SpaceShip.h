@@ -18,12 +18,22 @@ public:
 	void setDestination(const glm::vec2 destination);
 	void setOrientation(const glm::vec2 orientation);
 	void setAngle(const float angle);
+	
 	float getAngle() const;
+	glm::vec2 getOrientation() const;
+	float getTurnRate() const;
+	void setTurnRate(float rate);
+	float getAccelerationRate() const;
+	void setAccelerationRate(float rate);
+	
+
 private:
 	glm::vec2 m_destination;
 	glm::vec2 m_targetDirection;
 	glm::vec2 m_orientation;
 	float m_angle;
+	float m_turnRate;
+	float m_accelerationRate;
 	
 	void m_Move();
 

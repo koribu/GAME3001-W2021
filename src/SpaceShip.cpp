@@ -68,6 +68,31 @@ float SpaceShip::getAngle() const
 	return m_angle;
 }
 
+glm::vec2 SpaceShip::getOrientation() const
+{
+	return m_orientation;
+}
+
+float SpaceShip::getTurnRate() const
+{
+	return m_turnRate;
+}
+
+void SpaceShip::setTurnRate(float rate)
+{
+	m_turnRate = rate;
+}
+
+float SpaceShip::getAccelerationRate() const
+{
+	return m_accelerationRate;
+}
+
+void SpaceShip::setAccelerationRate(float rate)
+{
+	m_accelerationRate = rate;
+}
+
 void SpaceShip::m_Move()
 {
 	//magnitude
