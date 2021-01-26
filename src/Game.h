@@ -49,6 +49,10 @@ public:
 	glm::vec2 getMousePosition() const;
 	void setFrames(Uint32 frames);
 	Uint32 getFrames() const;
+
+	float getDeltaTime() const;
+	void setDeltatime(float t);
+	
 	bool isRunning() const;
 	void changeSceneState(SceneState new_state);
 	
@@ -59,6 +63,7 @@ private:
 	// game properties
 	bool m_bRunning;
 	Uint32 m_frames;
+	float m_deltaTime;
 	glm::vec2 m_mousePosition;
 
 	// scene variables
