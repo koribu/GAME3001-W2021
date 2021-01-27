@@ -1,5 +1,7 @@
 #include "Obstacle.h"
 
+
+#include "SoundManager.h"
 #include "TextureManager.h"
 
 Obstacle::Obstacle()
@@ -13,6 +15,10 @@ Obstacle::Obstacle()
 	getTransform()->position = glm::vec2(300.0f, 300.0f);
 
 	setType(OBSTACLE);
+
+	getRigidBody()->isColliding = false;
+
+	SoundManager::Instance().load("../Assets/audio/yay.ogg", "yay",SOUND_SFX);
 }
 
 Obstacle::~Obstacle()
