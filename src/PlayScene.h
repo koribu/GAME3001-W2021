@@ -9,6 +9,7 @@
 #include "Label.h"
 
 #include "Enemy.h"
+#include "Obstacle.h"
 #include "SpaceShip.h"
 #include "Target.h"
 
@@ -36,6 +37,8 @@ private:
 	SpaceShip* m_pSpaceShip;
 
 	Label* m_pInstructionsLabel;
+
+	Obstacle* m_pObstacle;
 };
 
 #endif /* defined (__PLAY_SCENE__) */
