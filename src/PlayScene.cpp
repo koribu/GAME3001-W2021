@@ -80,10 +80,23 @@ void PlayScene::GUI_Function() const
 	ImGui::Begin("Your Window Title Goes Here", NULL, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_MenuBar);
 
 	static float angleInRad = m_pSpaceShip->getAngle();
-	if(ImGui::SliderAngle("Direction Angle",&angleInRad))
+	if(ImGui::SliderAngle("Orientation Angle",&angleInRad))
 	{
 		m_pSpaceShip->setAngle(angleInRad * Util::Rad2Deg);
 	}
+
+	static float acceleration_rate = 2.0f;
+	if (ImGui::SliderFloat("Acceleration Rate", &acceleration_rate, 0.0f, 50.0f))
+	{
+		m_pSpaceShip->setAccelerationRate((acceleration_rate));
+	}
+
+	static float turn_rate = 5.0f;
+	if(ImGui::SliderFloat("Turn Rate",&turn_rate,0.0f,20.0f))
+	{
+		m_pSpaceShip->setTurnRate(turn_rate);
+	}
+	
 	static float speed = 5.0f;
 	if(ImGui::SliderFloat("Max Speed", &speed, 0.0f, 100.0f))
 	{
@@ -102,6 +115,10 @@ void PlayScene::GUI_Function() const
 		m_pSpaceShip->getTransform()->position = glm::vec2(100, 100);
 		m_pSpaceShip->getRigidBody()->velocity = glm::vec2(0.0f, 0.0f);
 		m_pSpaceShip->setAngle(0.0f);
+		turn_rate = 5.0f;
+		acceleration_rate = 2.0f;
+		speed = 10.0f;
+		angleInRad = m_pSpaceShip->getAngle();
 	}
 	ImGui::Separator();
 
