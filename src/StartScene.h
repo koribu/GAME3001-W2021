@@ -27,7 +27,6 @@ private:
 	Label* m_pStudentID{};
 
 	Ship* m_pShip{};
-	SpaceShip* m_pSpaceShip{};
 
 	Button* m_pStartButton;
 };

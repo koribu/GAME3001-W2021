@@ -39,6 +39,7 @@ private:
 	Label* m_pInstructionsLabel;
 
 	Obstacle* m_pObstacle;
+
 };
 
 #endif /* defined (__PLAY_SCENE__) */

@@ -64,6 +64,10 @@ void PlayScene::start()
 	addChild(m_pSpaceShip);
 	m_pSpaceShip->setEnabled(false);
 	m_pSpaceShip->setDestination(m_pTarget->getTransform()->position);
+
+	SoundManager::Instance().load("../Assets/audio/FincaTenda.mp3", "bom", SOUND_MUSIC);
+	SoundManager::Instance().setMusicVolume(0.0f);
+	SoundManager::Instance().playMusic("bom", -1, 0);
 	
 
 	/* Instructions Label */
