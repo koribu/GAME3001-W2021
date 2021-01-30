@@ -4,6 +4,7 @@
 #include "DisplayObject.h"
 #include "TextureManager.h"
 
+#include "BehaviorState.h"
 class SpaceShip final : public DisplayObject
 {
 public:
@@ -22,10 +23,13 @@ public:
 	float getAngle() const;
 	glm::vec2 getOrientation() const;
 	float getTurnRate() const;
+	float getMaxSpeed() const;
 	void setTurnRate(float rate);
 	float getAccelerationRate() const;
 	void setAccelerationRate(float rate);
-	
+
+	void setState(BehaviorState state);
+
 
 private:
 	glm::vec2 m_destination;
@@ -35,8 +39,12 @@ private:
 	float m_turnRate;
 	float m_accelerationRate;
 	
-	void m_Move();
+	void m_SeekMove();
+	void m_FleeMove();
+	void m_ArriveMove();
 
+	
+	BehaviorState m_state = SEEK_STATE;
 	float m_maxSpeed;
 };
 

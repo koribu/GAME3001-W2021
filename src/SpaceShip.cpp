@@ -1,7 +1,4 @@
 #include "SpaceShip.h"
-
-
-
 #include "Game.h"
 #include "TextureManager.h"
 #include "Util.h"
@@ -40,7 +37,24 @@ void SpaceShip::draw()
 
 void SpaceShip::update()
 {
-	m_Move();
+	
+	switch (m_state)
+	{
+	case SEEK_STATE:
+		m_SeekMove();
+		break;
+	case FLEE_STATE:
+		m_FleeMove();
+		break;
+
+	case ARRIVE_STATE:
+		m_ArriveMove();
+		break;
+	
+	default:
+		break;
+	}
+	
 }
 
 void SpaceShip::clean()
@@ -89,6 +103,11 @@ float SpaceShip::getTurnRate() const
 	return m_turnRate;
 }
 
+float SpaceShip::getMaxSpeed() const
+{
+	return m_maxSpeed;
+}
+
 void SpaceShip::setTurnRate(float rate)
 {
 	m_turnRate = rate;
@@ -104,7 +123,14 @@ void SpaceShip::setAccelerationRate(float rate)
 	m_accelerationRate = rate;
 }
 
-void SpaceShip::m_Move()
+void SpaceShip::setState(BehaviorState state)
+{
+	m_state = state;
+}
+
+
+
+void SpaceShip::m_SeekMove()
 {
 	auto deltaTime = TheGame::Instance()->getDeltaTime();
 	
@@ -140,4 +166,46 @@ void SpaceShip::m_Move()
 	getRigidBody()->velocity = Util::clamp(getRigidBody()->velocity, m_maxSpeed);
 
 	getTransform()->position += getRigidBody()->velocity;
+}
+
+void SpaceShip::m_FleeMove()
+{
+	auto deltaTime = TheGame::Instance()->getDeltaTime();
+
+	//magnitude
+	m_targetDirection = m_destination - getTransform()->position;
+	//normalized
+	m_targetDirection = Util::normalize(m_targetDirection);
+
+	auto target_rotation = Util::signedAngle(getOrientation(), m_targetDirection);
+
+	auto turn_sensivity = 5.0f;
+
+	if (abs(target_rotation) > turn_sensivity)
+	{
+
+		if (target_rotation > 0.0f)
+		{
+			setAngle(getAngle() + getTurnRate());
+		}
+		else if (target_rotation < 0.0f)
+		{
+			setAngle(getAngle() - getTurnRate());
+		}
+
+	}
+
+	getRigidBody()->acceleration = getOrientation() * getAccelerationRate();
+
+	//using the formula pf=pi+vi*t+0.5ai*t^2
+	getRigidBody()->velocity += getOrientation() * (deltaTime)+
+		0.5f * getRigidBody()->acceleration * (deltaTime);
+
+	getRigidBody()->velocity = Util::clamp(getRigidBody()->velocity, m_maxSpeed);
+
+	getTransform()->position += getRigidBody()->velocity;
+}
+
+void SpaceShip::m_ArriveMove()
+{
 }

@@ -40,6 +40,8 @@ private:
 
 	Obstacle* m_pObstacle;
 
+	/*enum m_states {seek,flee,arrive,reset};
+	m_states currentState = reset;*/
 };
 
 #endif /* defined (__PLAY_SCENE__) */
