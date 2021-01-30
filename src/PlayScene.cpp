@@ -32,6 +32,11 @@ void PlayScene::update()
 	updateDisplayList();
 
 	CollisionManager::AABBCheck(m_pSpaceShip, m_pObstacle);
+	if(CollisionManager::circleAABBsquaredDistance(m_pTarget->getTransform()->position, 100, 
+		m_pSpaceShip->getTransform()->position, m_pSpaceShip->getWidth(), m_pSpaceShip->getHeight())<= 0)
+	{
+		m_pSpaceShip->setIsArriveRange(true);
+	}
 
 	//switch (currentState)
 	//{
@@ -75,20 +80,28 @@ void PlayScene::handleEvents()
 			Util::RandomRange(-100.0f, 700.0f) /* Util::RandomRange(600.0f, 800.0f)*/);
 		m_pSpaceShip->setEnabled(true);
 		m_pTarget->setEnabled(true);
+
+		m_pSpaceShip ->setMaxSpeed(10.0f);
+		m_pSpaceShip->setAccelerationRate(10.0f);
+		m_pSpaceShip->setTurnRate(10.0f);
 		//currentState = seek;
 	} 
 	if (EventManager::Instance().isKeyDown(SDL_SCANCODE_2))
 	{
 		m_pSpaceShip->setState(FLEE_STATE);
+		m_pSpaceShip->setMaxSpeed(10.0f);
+		m_pSpaceShip->setAccelerationRate(10.0f);
+		m_pSpaceShip->setTurnRate(2.0f);
 		//m_pSpaceShip->getTransform()->position = glm::vec2((Util::RandomRange(300.0f, 500.0f)),
 		//	Util::RandomRange(250.0f, 450.0f));
 		//m_pTarget->getTransform()->position = glm::vec2(Util::RandomRange(350.0f, 450.0f), Util::RandomRange(300.0f, 400.0f));
 		//m_pSpaceShip->setEnabled(true);
-		//m_pTarget->setEnabled(true);
+		m_pTarget->setEnabled(true);
 		//currentState = flee;
 	}
 	if (EventManager::Instance().isKeyDown(SDL_SCANCODE_3))
 	{
+		Util::DrawCircle(m_pTarget->getTransform()->position, 100);
 		m_pSpaceShip->setState(ARRIVE_STATE);
 		//m_pSpaceShip->setEnabled(true);
 		//m_pTarget->setEnabled(false);
@@ -110,7 +123,7 @@ void PlayScene::start()
 	m_guiTitle = "Play Scene";
 	
 	m_pTarget = new Target();
-	m_pTarget->getTransform()->position = glm::vec2(Util::RandomRange(0.0f, 700.0f), Util::RandomRange(100.0f, 700.0f));
+	m_pTarget->getTransform()->position = glm::vec2(Util::RandomRange(200.0f, 500.0f), Util::RandomRange(100.0f, 500.0f));
 	addChild(m_pTarget);
 	m_pTarget->setEnabled(false);
 

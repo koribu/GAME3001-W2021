@@ -12,6 +12,7 @@
 #include "Obstacle.h"
 #include "SpaceShip.h"
 #include "Target.h"
+#include "Util.h"
 
 class PlayScene : public Scene
 {
@@ -39,6 +40,7 @@ private:
 	Label* m_pInstructionsLabel;
 
 	Obstacle* m_pObstacle;
+
 
 	/*enum m_states {seek,flee,arrive,reset};
 	m_states currentState = reset;*/

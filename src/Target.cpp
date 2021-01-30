@@ -1,5 +1,6 @@
 #include "Target.h"
 #include "TextureManager.h"
+#include "Util.h"
 
 
 Target::Target()
@@ -27,6 +28,8 @@ void Target::draw()
 
 	// draw the target
 	TextureManager::Instance()->draw("circle", x, y, 0, 255, true);
+
+	Util::DrawCircle(this->getTransform()->position, 100.0f,glm::vec4(0,0,0,255));
 }
 
 void Target::update()

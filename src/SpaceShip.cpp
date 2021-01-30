@@ -48,7 +48,15 @@ void SpaceShip::update()
 		break;
 
 	case ARRIVE_STATE:
-		m_ArriveMove();
+		if(!getIsArriveRange())
+		{
+			m_SeekMove();
+		}
+		else
+		{
+			m_ArriveMove();
+		}
+		
 		break;
 	
 	default:
@@ -145,7 +153,7 @@ void SpaceShip::m_SeekMove()
 
 	if(abs(target_rotation)>turn_sensivity)
 	{
-
+		
 		if (target_rotation > 0.0f)
 		{
 			setAngle(getAngle() + getTurnRate());
@@ -175,7 +183,7 @@ void SpaceShip::m_FleeMove()
 	//magnitude
 	m_targetDirection = m_destination - getTransform()->position;
 	//normalized
-	m_targetDirection = Util::normalize(m_targetDirection);
+	m_targetDirection = Util::normalize(m_targetDirection * glm::vec2(-1,-1));
 
 	auto target_rotation = Util::signedAngle(getOrientation(), m_targetDirection);
 
@@ -208,4 +216,44 @@ void SpaceShip::m_FleeMove()
 
 void SpaceShip::m_ArriveMove()
 {
+	
+	
+	auto deltaTime = TheGame::Instance()->getDeltaTime();
+
+	//magnitude
+	m_targetDirection = m_destination - getTransform()->position;
+	//normalized
+	m_targetDirection = Util::normalize(m_targetDirection);
+
+	auto target_rotation = Util::signedAngle(getOrientation(), m_targetDirection);
+
+	auto turn_sensivity = 5.0f;
+
+	if (abs(target_rotation) > turn_sensivity)
+	{
+		if (getAngle() > target_rotation)
+			setTurnRate(target_rotation);
+
+		if (target_rotation > 0.0f)
+		{
+			setAngle(getAngle() + getTurnRate());
+		}
+		else if (target_rotation < 0.0f)
+		{
+			setAngle(getAngle() - getTurnRate());
+		}
+
+	}
+
+	getRigidBody()->acceleration = getOrientation() * getAccelerationRate();
+
+	//using the formula pf=pi+vi*t+0.5ai*t^2
+	getRigidBody()->velocity += getOrientation() * (deltaTime)+
+		0.5f * getRigidBody()->acceleration * (deltaTime);
+	setMaxSpeed(getRigidBody()->velocity.length());
+	std::cout << getMaxSpeed() << std::endl;
+	getRigidBody()->velocity = Util::clamp(getRigidBody()->velocity, m_maxSpeed);
+
+	getTransform()->position += getRigidBody()->velocity;
+	
 }

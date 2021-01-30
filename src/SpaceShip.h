@@ -27,7 +27,15 @@ public:
 	void setTurnRate(float rate);
 	float getAccelerationRate() const;
 	void setAccelerationRate(float rate);
-
+	void setIsArriveRange(bool a)
+	{
+		m_isArriveRange = a;
+	}
+	bool getIsArriveRange()
+	{
+		return m_isArriveRange;
+	}
+	
 	void setState(BehaviorState state);
 
 
@@ -38,6 +46,7 @@ private:
 	float m_angle;
 	float m_turnRate;
 	float m_accelerationRate;
+	bool m_isArriveRange;
 	
 	void m_SeekMove();
 	void m_FleeMove();

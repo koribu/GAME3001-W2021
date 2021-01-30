@@ -82,6 +82,9 @@ bool CollisionManager::AABBCheck(GameObject* object1, GameObject* object2)
 				//sound
 				//SoundManager::Instance().playSound("yay", 0);
 				break;
+			case SPACE_SHIP:
+				//object2.
+				break;
 			default:
 				
 				break;
