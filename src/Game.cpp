@@ -103,9 +103,8 @@ void Game::start()
 {
 	m_currentSceneState = NO_SCENE;
 
-	//TODO Dont forget to uncommend
-	//changeSceneState(START_SCENE);
-	changeSceneState(PLAY_SCENE);
+	changeSceneState(START_SCENE);
+	//changeSceneState(PLAY_SCENE);
 }
 
 bool Game::isRunning() const

@@ -248,14 +248,6 @@ void SpaceShip::m_ArriveMove()
 
 	}
 
-	//getRigidBody()->acceleration = getOrientation() * getAccelerationRate();
-
-	//using the formula pf=pi+vi*t+0.5ai*t^2
-	
-	//getRigidBody()->velocity += getOrientation() * (deltaTime)+
-	//	0.5f * getRigidBody()->acceleration * (deltaTime);
-
-
 	if(m_destination == getTransform()->position)
 	{
 		m_maxSpeed = 0;
@@ -265,7 +257,7 @@ void SpaceShip::m_ArriveMove()
 	getRigidBody()->velocity = m_destination - getTransform()->position;
 
 	getTransform()->position += getRigidBody()->velocity * deltaTime;
-
+	
 	
 }
 

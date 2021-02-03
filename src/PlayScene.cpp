@@ -96,6 +96,8 @@ void PlayScene::handleEvents()
 		m_pSpaceShip->getRigidBody()->velocity = glm::vec2(0.0f, 0.0f);
 		m_pSpaceShip->setAngle(0.0f);
 
+		SoundManager::Instance().setSoundVolume(1);
+		SoundManager::Instance().playSound("explode1");
 		
 		
 		m_pSpaceShip->getTransform()->position = glm::vec2(/*(Util::RandomRange(-100.0f, 0.0f))*/-10, 
@@ -121,6 +123,8 @@ void PlayScene::handleEvents()
 		m_pSpaceShip->getRigidBody()->velocity = glm::vec2(0.0f, 0.0f);
 		m_pSpaceShip->setAngle(0.0f);
 
+		SoundManager::Instance().setSoundVolume(8);
+		SoundManager::Instance().playSound("laser1");
 		
 		m_pSpaceShip->getTransform()->position = glm::vec2(400.0f,300.0f);
 
@@ -139,25 +143,34 @@ void PlayScene::handleEvents()
 
 		m_pSpaceShip->getTransform()->position = glm::vec2(10.0f, 150.0f);
 		
-		m_pSpaceShip->setIsArriveRange(false);
-		m_pSpaceShip->setMaxSpeed(10.0f);
-		m_pSpaceShip->setAccelerationRate(10.0f);
-		m_pSpaceShip->setTurnRate(10.0f);
-		m_pSpaceShip->getRigidBody()->velocity = glm::vec2(0.0f, 0.0f);
-		m_pSpaceShip->setAngle(0.0f);
+		SoundManager::Instance().setSoundVolume(10);
+		SoundManager::Instance().playSound("laser2");
 		
-		Util::DrawCircle(m_pTarget->getTransform()->position, 100);
+		m_pSpaceShip->setIsArriveRange(false);
+		m_pSpaceShip->setMaxSpeed(8.0f);
+		m_pSpaceShip->setAccelerationRate(8.0f);
+		m_pSpaceShip->setTurnRate(8.0f);
+		m_pSpaceShip->getRigidBody()->velocity = glm::vec2(0.0f, 0.0f);
+
+		m_pTarget->getTransform()->position = glm::vec2(450.0f, 300.0f);
+
+		m_pSpaceShip->setDestination(m_pTarget->getTransform()->position);
+		
+		m_pSpaceShip->setAngle(0.0f);
+
 
 		m_pObstacle->setEnabled(false);
-		
-		//m_pSpaceShip->setEnabled(true);
-		//m_pTarget->setEnabled(false);
-		//currentState = arrive;
+		m_pTarget->setEnabled(true);
+		m_pSpaceShip->setEnabled(true);
+
 	}
 	if (EventManager::Instance().isKeyDown(SDL_SCANCODE_4))
 	{
 		m_pSpaceShip->setState(OBSTACLE_STATE);
 
+		SoundManager::Instance().setSoundVolume(1);
+		SoundManager::Instance().playSound("explode2");
+		
 		m_pSpaceShip->setMaxSpeed(5.0f);
 		m_pSpaceShip->setAccelerationRate(3.0f);
 		m_pSpaceShip->setTurnRate(5.0f);
@@ -195,6 +208,20 @@ void PlayScene::start()
 	m_guiTitle = "Play Scene";
 
 	
+	/* Instructions Label */
+	m_pInstructionsLabel = new Label("Press 1 for Seek Behavior", "Consolas");
+	m_pInstructionsLabel->getTransform()->position = glm::vec2(Config::SCREEN_WIDTH * 0.5f, 25.0f);
+	addChild(m_pInstructionsLabel);
+	m_pInstructionsLabel = new Label("Press 2 for Flee Behavior", "Consolas");
+	m_pInstructionsLabel->getTransform()->position = glm::vec2(Config::SCREEN_WIDTH * 0.5f, 50.0f);
+	addChild(m_pInstructionsLabel);
+	m_pInstructionsLabel = new Label("Press 3 for Arrive Behavior", "Consolas");
+	m_pInstructionsLabel->getTransform()->position = glm::vec2(Config::SCREEN_WIDTH * 0.5f, 75.0f);
+	addChild(m_pInstructionsLabel);
+	m_pInstructionsLabel = new Label("Press 4 for Obstacle Avoidance Behavior", "Consolas");
+	m_pInstructionsLabel->getTransform()->position = glm::vec2(Config::SCREEN_WIDTH * 0.5f, 100.0f);
+	addChild(m_pInstructionsLabel);
+	
 	
 	m_pTarget = new Target();
 	m_pTarget->getTransform()->position = glm::vec2(Util::RandomRange(200.0f, 500.0f), Util::RandomRange(100.0f, 500.0f));
@@ -206,25 +233,26 @@ void PlayScene::start()
 	addChild(m_pObstacle);
 	m_pObstacle->setEnabled(false);
 
-
-
 	//Space ship sprite
 	m_pSpaceShip = new SpaceShip();
 	m_pSpaceShip->getTransform()->position = glm::vec2(100, 100);
 	addChild(m_pSpaceShip);
 	m_pSpaceShip->setEnabled(false);
 	m_pSpaceShip->setDestination(m_pTarget->getTransform()->position);
-
+	
+	SoundManager::Instance().setMusicVolume(10.0f);
+	SoundManager::Instance().setSoundVolume(3);
+	SoundManager::Instance().load("../Assets/audio/explosion.wav", "explode1", SOUND_SFX);
+	SoundManager::Instance().load("../Assets/audio/Laser.wav", "laser1", SOUND_SFX);
+	SoundManager::Instance().load("../Assets/audio/Laser2.wav", "laser2", SOUND_SFX);
+	SoundManager::Instance().load("../Assets/audio/Explosion2.wav", "explode2", SOUND_SFX);
 	SoundManager::Instance().load("../Assets/audio/FincaTenda.mp3", "bom", SOUND_MUSIC);
-	SoundManager::Instance().setMusicVolume(0.0f);
+
 	SoundManager::Instance().playMusic("bom", -1, 0);
 	
 
-	/* Instructions Label */
-	m_pInstructionsLabel = new Label("Press the backtick (`) character to toggle Debug View", "Consolas");
-	m_pInstructionsLabel->getTransform()->position = glm::vec2(Config::SCREEN_WIDTH * 0.5f, 500.0f);
 
-	//addChild(m_pInstructionsLabel);
+
 
 	
 }
