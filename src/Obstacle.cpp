@@ -3,6 +3,7 @@
 
 #include "SoundManager.h"
 #include "TextureManager.h"
+#include "Util.h"
 
 Obstacle::Obstacle()
 {
@@ -28,8 +29,7 @@ Obstacle::~Obstacle()
 void Obstacle::draw()
 {
 	TextureManager::Instance()->draw("obstacle", getTransform()->position.x, getTransform()->position.y,
-		0, 255, true);
-	
+		90, 255, false);
 }
 
 void Obstacle::update()

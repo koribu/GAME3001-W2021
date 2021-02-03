@@ -6,6 +6,7 @@ enum BehaviorState
 	NONE_STATE = -1,
 	SEEK_STATE,
 	FLEE_STATE,
-	ARRIVE_STATE
+	ARRIVE_STATE,
+	OBSTACLE_STATE
 };
 #endif

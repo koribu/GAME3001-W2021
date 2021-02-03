@@ -40,33 +40,41 @@ void PlayScene::update()
 		m_pSpaceShip->setIsArriveRange(true);
 	}
 
+
+	if (CollisionManager::lineRectCheck(m_pSpaceShip->getTransform()->position, m_pSpaceShip->getTransform()->position + (m_pSpaceShip->getOrientation() * 125.0f),
+		m_pObstacle->getTransform()->position,100,200 /*m_pObstacle->getWidth(), m_pObstacle->getHeight()*/) == true && m_pSpaceShip->getState() == OBSTACLE_STATE)
+	{
+		
+		m_pSpaceShip->setMaxSpeed(/*m_pSpaceShip->getMaxSpeed() / 3*/1.0f);
+		m_pSpaceShip->setAccelerationRate(10.0f);
+		m_pSpaceShip->setDestination(m_pSpaceShip->getTransform()->position + (m_pSpaceShip->getOrientation() * 100.0f)+glm::vec2(-100.0f,500.0f));
+	}
+	else if(CollisionManager::lineRectCheck(m_pSpaceShip->getTransform()->position, getTransform()->position + (m_pSpaceShip->getOrientation() + (Util::setAngle(90)) * 80.0f),
+		m_pObstacle->getTransform()->position, m_pObstacle->getWidth(), m_pObstacle->getHeight()-20) == false && m_pSpaceShip->getState() == OBSTACLE_STATE)
+	{
+		m_pSpaceShip->setDestination(m_pTarget->getTransform()->position);
+		m_pSpaceShip->setMaxSpeed(10.0f);
+		m_pSpaceShip->setAccelerationRate(10.0f);
+		m_pSpaceShip->setTurnRate(10.0f);
+	}
+	if (CollisionManager::lineRectCheck(m_pSpaceShip->getTransform()->position, getTransform()->position + (m_pSpaceShip->getOrientation() + (Util::setAngle(60)) * 150.0f),
+		m_pObstacle->getTransform()->position, m_pObstacle->getWidth(), m_pObstacle->getHeight()) == true && m_pSpaceShip->getState() == OBSTACLE_STATE)
+	{
+		m_pSpaceShip->setAccelerationRate(10.0f);
+		//m_pSpaceShip->setDestination(m_pSpaceShip->getTransform()->position + (m_pSpaceShip->getOrientation() * 100.0f) + glm::vec2(-50.0f, 100.0f));
+	}
+	if (CollisionManager::lineRectCheck(m_pSpaceShip->getTransform()->position, getTransform()->position + (m_pSpaceShip->getOrientation() - (Util::setAngle(60)) * 150.0f),
+		m_pObstacle->getTransform()->position, m_pObstacle->getWidth(), m_pObstacle->getHeight()) == true && m_pSpaceShip->getState() == OBSTACLE_STATE)
+	{
+		m_pSpaceShip->setAccelerationRate(10.0f);
+		//m_pSpaceShip->setDestination(m_pSpaceShip->getTransform()->position + (m_pSpaceShip->getOrientation() * 100.0f) + glm::vec2(-50.0f, 100.0f));
+	}
+
+	else
+	{
+		
+	}
 	
-
-	cout << m_pSpaceShip->getTransform()->position.x<<"   "<<m_pSpaceShip->getTransform()->position.y<<std::endl;
-	//switch (currentState)
-	//{
-	//case seek:
-	//	
-	//	m_pSpaceShip->setDestination(m_pTarget->getTransform()->position);
-
-
-	//	break;
-	//case flee:
-	//	//m_pSpaceShip->getRigidBody()->velocity = m_pSpaceShip->getTransform()->position - m_pTarget->getTransform()->position;
-	//	//Util::clamp(m_pSpaceShip->getRigidBody()->velocity, m_pSpaceShip->getMaxSpeed());
-	//case arrive:
-	//	break;
-	//case reset:
-	//	m_pSpaceShip->getTransform()->position = glm::vec2(100, 100);
-	//	m_pSpaceShip->getRigidBody()->velocity = glm::vec2(0.0f, 0.0f);
-	//	m_pSpaceShip->setAngle(0.0f);
-	//	m_pSpaceShip->setTurnRate(5.0f);
-	//	m_pSpaceShip->setAccelerationRate(2.0f);
-	//	m_pSpaceShip->setMaxSpeed(10.0f);
-	//	break;
-	//default:
-	//	break;
-	//}
 }
 
 void PlayScene::clean()
@@ -87,6 +95,8 @@ void PlayScene::handleEvents()
 		m_pSpaceShip->setTurnRate(10.0f);
 		m_pSpaceShip->getRigidBody()->velocity = glm::vec2(0.0f, 0.0f);
 		m_pSpaceShip->setAngle(0.0f);
+
+		
 		
 		m_pSpaceShip->getTransform()->position = glm::vec2(/*(Util::RandomRange(-100.0f, 0.0f))*/-10, 
 			/*Util::RandomRange(-100.0f, 700.0f)*/-10 );
@@ -96,6 +106,7 @@ void PlayScene::handleEvents()
 		m_pTarget->getTransform()->position = glm::vec2(450.f,300.0f/*Util::RandomRange(200.0f, 600.0f), Util::RandomRange(150.0f, 450.0f*/);
 
 		m_pSpaceShip->setDestination(m_pTarget->getTransform()->position);
+		m_pObstacle->setEnabled(false);
 
 		
 		//currentState = seek;
@@ -111,21 +122,22 @@ void PlayScene::handleEvents()
 		m_pSpaceShip->setAngle(0.0f);
 
 		
-		m_pSpaceShip->getTransform()->position = glm::vec2(400,300/*(Util::RandomRange(300.0f, 350.0f)),
-		                                                   Util::RandomRange(250.0f, 300.0f)*/);
+		m_pSpaceShip->getTransform()->position = glm::vec2(400.0f,300.0f);
 
-		m_pTarget->getTransform()->position = glm::vec2(350,300/*(Util::RandomRange(350.0f, 450.0f)),
-		                                                (Util::RandomRange(300.0f, 400.0f))*/);
+		m_pTarget->getTransform()->position = glm::vec2(350.0f,300.0f);
 
 		m_pSpaceShip->setDestination(m_pTarget->getTransform()->position);
 
 		m_pSpaceShip->setEnabled(true);
 		m_pTarget->setEnabled(true);
+		m_pObstacle->setEnabled(false);
 		//currentState = flee;
 	}
 	if (EventManager::Instance().isKeyDown(SDL_SCANCODE_3))
 	{
 		m_pSpaceShip->setState(ARRIVE_STATE);
+
+		m_pSpaceShip->getTransform()->position = glm::vec2(10.0f, 150.0f);
 		
 		m_pSpaceShip->setIsArriveRange(false);
 		m_pSpaceShip->setMaxSpeed(10.0f);
@@ -135,10 +147,37 @@ void PlayScene::handleEvents()
 		m_pSpaceShip->setAngle(0.0f);
 		
 		Util::DrawCircle(m_pTarget->getTransform()->position, 100);
+
+		m_pObstacle->setEnabled(false);
 		
 		//m_pSpaceShip->setEnabled(true);
 		//m_pTarget->setEnabled(false);
 		//currentState = arrive;
+	}
+	if (EventManager::Instance().isKeyDown(SDL_SCANCODE_4))
+	{
+		m_pSpaceShip->setState(OBSTACLE_STATE);
+
+		m_pSpaceShip->setMaxSpeed(5.0f);
+		m_pSpaceShip->setAccelerationRate(3.0f);
+		m_pSpaceShip->setTurnRate(5.0f);
+		m_pSpaceShip->getRigidBody()->velocity = glm::vec2(0.0f, 0.0f);
+		m_pSpaceShip->setAngle(0.0f);
+
+		m_pObstacle->setEnabled(true);
+		
+
+		m_pSpaceShip->getTransform()->position = glm::vec2(/*(Util::RandomRange(-100.0f, 0.0f))*/10.0f,
+			/*Util::RandomRange(-100.0f, 700.0f)*/300.0f);
+		m_pSpaceShip->setEnabled(true);
+		m_pTarget->setEnabled(true);
+
+		m_pTarget->getTransform()->position = glm::vec2(650.f, 300.0f);
+
+		m_pSpaceShip->setDestination(m_pTarget->getTransform()->position);
+
+
+		//currentState = seek;
 	}
 	if (EventManager::Instance().isKeyDown(SDL_SCANCODE_0))
 	{
@@ -154,6 +193,8 @@ void PlayScene::start()
 {
 	// Set GUI Title
 	m_guiTitle = "Play Scene";
+
+	
 	
 	m_pTarget = new Target();
 	m_pTarget->getTransform()->position = glm::vec2(Util::RandomRange(200.0f, 500.0f), Util::RandomRange(100.0f, 500.0f));
@@ -161,9 +202,12 @@ void PlayScene::start()
 	m_pTarget->setEnabled(false);
 
 	m_pObstacle = new Obstacle;
-	m_pObstacle->getTransform()->position = glm::vec2(500.0f, 300.0f);
-//	addChild(m_pObstacle);
-	
+	m_pObstacle->getTransform()->position = glm::vec2(300.0f, 200.0f);
+	addChild(m_pObstacle);
+	m_pObstacle->setEnabled(false);
+
+
+
 	//Space ship sprite
 	m_pSpaceShip = new SpaceShip();
 	m_pSpaceShip->getTransform()->position = glm::vec2(100, 100);

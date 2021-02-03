@@ -58,7 +58,10 @@ void SpaceShip::update()
 		}
 		
 		break;
-	
+	case OBSTACLE_STATE:
+
+		//m_ObstacleMove();
+		m_SeekMove();
 	default:
 		break;
 	}
@@ -259,9 +262,13 @@ void SpaceShip::m_ArriveMove()
 		
 	}
 	
-	std::cout << getRigidBody()->velocity.length() << std::endl;
+	getRigidBody()->velocity = m_destination - getTransform()->position;
 
-	getTransform()->position += getRigidBody()->velocity * (m_maxSpeed/2);
+	getTransform()->position += getRigidBody()->velocity * deltaTime;
 
 	
 }
+
+
+
+

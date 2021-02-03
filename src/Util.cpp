@@ -311,6 +311,19 @@ float Util::signedAngle(const glm::vec2 from, const glm::vec2 to)
 	return unsigned_angle * sign;
 }
 
+glm::vec2 Util::setAngle(const float angle)
+{
+	
+
+		auto angle_in_radians = (angle - 90.0f) * Util::Deg2Rad;
+
+		auto x = cos(angle_in_radians);
+		auto y = sin(angle_in_radians);
+
+		return glm::vec2(x, y);
+	
+}
+
 void Util::DrawLine(glm::vec2 start, glm::vec2 end, glm::vec4 colour)
 {
 	int r = floor(colour.r * 255.0f);

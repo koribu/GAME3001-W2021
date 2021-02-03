@@ -9,8 +9,8 @@ class SpaceShip final : public DisplayObject
 {
 public:
 	SpaceShip();
-		~SpaceShip();
-	
+	~SpaceShip();
+
 	void draw() override;
 	void update() override;
 	void clean() override;
@@ -19,7 +19,7 @@ public:
 	void setDestination(const glm::vec2 destination);
 	void setOrientation(const glm::vec2 orientation);
 	void setAngle(const float angle);
-	
+
 	float getAngle() const;
 	glm::vec2 getOrientation() const;
 	float getTurnRate() const;
@@ -35,8 +35,13 @@ public:
 	{
 		return m_isArriveRange;
 	}
-	
+
+
 	void setState(BehaviorState state);
+	BehaviorState getState()
+	{
+		return m_state;
+	}
 
 
 private:
@@ -47,10 +52,13 @@ private:
 	float m_turnRate;
 	float m_accelerationRate;
 	bool m_isArriveRange;
+
+	
 	
 	void m_SeekMove();
 	void m_FleeMove();
 	void m_ArriveMove();
+
 
 	
 	BehaviorState m_state = SEEK_STATE;
